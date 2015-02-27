@@ -3,8 +3,10 @@ package com.example.agilen_android.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-
-
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 
 /**
@@ -23,7 +25,7 @@ import android.app.Activity;
  * {@link ItemListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ItemListActivity extends Activity
+public class ItemListActivity extends ActionBarActivity
         implements ItemListFragment.Callbacks {
 
     /**
@@ -79,5 +81,11 @@ public class ItemListActivity extends Activity
             detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_a, menu);
+        return true;
     }
 }
