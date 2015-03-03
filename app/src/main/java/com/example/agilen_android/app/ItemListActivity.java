@@ -68,6 +68,7 @@ public class ItemListActivity extends ActionBarActivity
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
+            arguments.putBoolean("two_pane", mTwoPane);
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
