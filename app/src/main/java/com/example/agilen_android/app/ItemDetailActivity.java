@@ -48,8 +48,10 @@ public class ItemDetailActivity extends ActionBarActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
+            /*
             arguments.putString(ItemDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));
+                    getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));*/
+            arguments.putSerializable("item", getIntent().getSerializableExtra("item"));
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
@@ -83,33 +85,4 @@ public class ItemDetailActivity extends ActionBarActivity {
         inflater.inflate(R.menu.menu_b, menu);
         return true;
     }
-/*
-    class ActionBarCallBack implements ActionMode.Callback {
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // TODO Auto-generated method stub
-            mode.getMenuInflater().inflate(R.menu.menu_b, menu);
-            return true;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            // TODO Auto-generated method stub
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            // TODO Auto-generated method stub
-            String item = getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID);
-            mode.setTitle("Item " + item + " everybody!");
-            return false;
-        }
-    }*/
 }

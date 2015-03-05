@@ -2,6 +2,7 @@ package com.example.agilen_android.app;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ public class ItemDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private Item mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,7 +40,10 @@ public class ItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        mItem = (Item) getArguments().getSerializable("item");
+
+        //if (getArguments().containsKey("item")) { TODO varför ska denna finnas här?
+            Log.d("HHÄR GINNS DET ITEMS", "!!!!!");
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
@@ -48,8 +52,8 @@ public class ItemDetailFragment extends Fragment {
                 mActionMode = getActivity().startActionMode(new ActionBarCallBack());
             }
 
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-        }
+            //mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        //}
     }
 
     @Override
@@ -59,7 +63,10 @@ public class ItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.content);
+            TextView tv = (TextView) rootView.findViewById(R.id.title);
+            ((TextView) rootView.findViewById(R.id.title)).setText(mItem.getTitle());
+           // ((TextView) rootView.findViewById(R.id.rating)).setText(mItem.getRating());
+            ((TextView) rootView.findViewById(R.id.descr)).setText(mItem.getDescription());
         }
 
         return rootView;
@@ -88,9 +95,9 @@ public class ItemDetailFragment extends Fragment {
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             // TODO Auto-generated method stub
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-            //String item = getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID);
-            mode.setTitle("Item " + mItem + " everybody!");
+            //mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            //String item = getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID); //TODO lägg in texten
+            mode.setTitle("Item " + mItem.getTitle() + " everybody!");
             return false;
         }
     }

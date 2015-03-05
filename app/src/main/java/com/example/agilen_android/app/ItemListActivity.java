@@ -64,15 +64,16 @@ public class ItemListActivity extends ActionBarActivity
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(String id, Item item) {
 
-        Item item;
+
+        //Item item;
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            //arguments.putSerializable("item", item);
+            arguments.putSerializable("item", item);
             arguments.putString("id", id);
             arguments.putBoolean("two_pane", mTwoPane);
             ItemDetailFragment fragment = new ItemDetailFragment();
@@ -86,7 +87,7 @@ public class ItemListActivity extends ActionBarActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ItemDetailActivity.class);
             detailIntent.putExtra("id", id);
-            //detailIntent.putExtra("item",item);
+            detailIntent.putExtra("item",item);
             startActivity(detailIntent);
         }
     }
@@ -102,7 +103,6 @@ public class ItemListActivity extends ActionBarActivity
         try{
             switch(item.getItemId()){
                 case R.id.add:
-                    Log.d("**************" , "in the addyaddy fundtion");
                     ItemListFragment f = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
                     f.addItem();
                     break;

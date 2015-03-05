@@ -24,7 +24,6 @@ import java.util.ArrayList;
  */
 public class ItemListFragment extends ListFragment {
 
-    ArrayList<Item> items;
     Datasource ds;
     ArrayAdapter<Item> adapter;
 
@@ -54,7 +53,7 @@ public class ItemListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(String id, Item item);
     }
 
     /**
@@ -63,7 +62,7 @@ public class ItemListFragment extends ListFragment {
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(String id, Item item) {
         }
     };
 
@@ -78,19 +77,22 @@ public class ItemListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        createList();
+
+    }
+
+    private void createList() {
+
         ds = new Datasource(getActivity());
         ds.open();
-        //items = ds.fetchAll(1,false);
         adapter = new ArrayAdapter<Item>(getActivity(), android.R.layout.simple_list_item_activated_1, android.R.id.text1, ds.fetchAll(1,false));
         setListAdapter(adapter);
-
     }
 
     public void addItem(){ //TODO create your own item
         Item newItem = new Item("New item");
         adapter.addAll(newItem);
-        //items.add(newItem);
-        //Log.d("***************** items:", Integer.toString(items.size()));
+        ds.insertItem(newItem.getTitle(),3,"bra");
         adapter.notifyDataSetChanged();
     }
 
@@ -108,6 +110,8 @@ public class ItemListFragment extends ListFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
+        createList();
 
         // Activities containing this fragment must implement its callbacks.
         if (!(activity instanceof Callbacks)) {
@@ -131,8 +135,7 @@ public class ItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        //mCallbacks.onItemSelected(items.get(position).getTitle());
-        mCallbacks.onItemSelected(adapter.getItem(position).getTitle());
+        mCallbacks.onItemSelected(adapter.getItem(position).getTitle(), adapter.getItem(position));
     }
 
     @Override
