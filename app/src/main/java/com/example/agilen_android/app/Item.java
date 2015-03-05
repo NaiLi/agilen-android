@@ -1,12 +1,19 @@
 package com.example.agilen_android.app;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable{
 	  public long id;
 	  private String title;
       private String description;
 	  private int rating;
 
-	  public Item(){
+      public Item(){
+
+      }
+
+	  public Item(String text){
+          title = text;
 	  }
 
 	  public long getId() {

@@ -1,12 +1,15 @@
 package com.example.agilen_android.app;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 
 /**
@@ -62,12 +65,15 @@ public class ItemListActivity extends ActionBarActivity
      */
     @Override
     public void onItemSelected(String id) {
+
+        Item item;
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
+            //arguments.putSerializable("item", item);
+            arguments.putString("id", id);
             arguments.putBoolean("two_pane", mTwoPane);
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
@@ -79,7 +85,8 @@ public class ItemListActivity extends ActionBarActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra("id", id);
+            //detailIntent.putExtra("item",item);
             startActivity(detailIntent);
         }
     }
@@ -87,6 +94,22 @@ public class ItemListActivity extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_a, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        try{
+            switch(item.getItemId()){
+                case R.id.add:
+                    Log.d("**************" , "in the addyaddy fundtion");
+                    ItemListFragment f = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+                    f.addItem();
+                    break;
+            }
+        } catch(Exception e){
+            Log.i("Error ", e.toString());
+        }
         return true;
     }
 }

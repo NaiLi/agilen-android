@@ -3,12 +3,15 @@ package com.example.agilen_android.app;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
 import com.example.agilen_android.app.dummy.DummyContent;
+
+import java.util.ArrayList;
 
 /**
  * A list fragment representing a list of Items. This fragment
@@ -20,6 +23,10 @@ import com.example.agilen_android.app.dummy.DummyContent;
  * interface.
  */
 public class ItemListFragment extends ListFragment {
+
+    ArrayList<Item> items;
+    Datasource ds;
+    ArrayAdapter<Item> adapter;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -71,12 +78,20 @@ public class ItemListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        ds = new Datasource(getActivity());
+        ds.open();
+        //items = ds.fetchAll(1,false);
+        adapter = new ArrayAdapter<Item>(getActivity(), android.R.layout.simple_list_item_activated_1, android.R.id.text1, ds.fetchAll(1,false));
+        setListAdapter(adapter);
+
+    }
+
+    public void addItem(){ //TODO create your own item
+        Item newItem = new Item("New item");
+        adapter.addAll(newItem);
+        //items.add(newItem);
+        //Log.d("***************** items:", Integer.toString(items.size()));
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -116,7 +131,8 @@ public class ItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        //mCallbacks.onItemSelected(items.get(position).getTitle());
+        mCallbacks.onItemSelected(adapter.getItem(position).getTitle());
     }
 
     @Override
