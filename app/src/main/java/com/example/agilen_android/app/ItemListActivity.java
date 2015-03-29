@@ -42,7 +42,16 @@ public class ItemListActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
+        // if an item should be deleted
+        if(getIntent().hasExtra("delete_item")) {
+            Log.d("agil ****" , "in here !" );
+            ItemListFragment f = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+            f.deletItem(getIntent().getExtras().getSerializable("delete_item"));
+        }
+
+        // if on a tablet
         if (findViewById(R.id.item_detail_container) != null) {
+
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
             // res/values-sw600dp). If this view is present, then the

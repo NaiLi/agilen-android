@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.example.agilen_android.app.dummy.DummyContent;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -93,6 +94,14 @@ public class ItemListFragment extends ListFragment {
         Item newItem = new Item("New item");
         adapter.addAll(newItem);
         ds.insertItem(newItem.getTitle(),3,"bra");
+        adapter.notifyDataSetChanged();
+    }
+
+    public void deletItem(Serializable item) {
+        Item i = (Item) item;
+        Log.d("agil ***** sure ", "i will delete " + Long.toString(i.getId()));
+        ds.deleteItem(Long.toString(i.getId()));
+        adapter.remove(i);
         adapter.notifyDataSetChanged();
     }
 

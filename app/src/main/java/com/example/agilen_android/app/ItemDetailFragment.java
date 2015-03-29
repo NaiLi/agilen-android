@@ -40,20 +40,15 @@ public class ItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mItem = (Item) getArguments().getSerializable("item");
 
-        //if (getArguments().containsKey("item")) { TODO varför ska denna finnas här?
-            Log.d("HHÄR GINNS DET ITEMS", "!!!!!");
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
+        if (getArguments().containsKey("item")) { //TODO varför ska denna finnas här?
+            mItem = (Item) getArguments().getSerializable("item");
 
             if(getArguments().getBoolean("two_pane") == true) {
                 mActionMode = getActivity().startActionMode(new ActionBarCallBack());
             }
 
-            //mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-        //}
+        }
     }
 
     @Override

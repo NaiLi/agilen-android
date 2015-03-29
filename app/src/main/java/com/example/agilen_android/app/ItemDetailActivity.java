@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBarActivity;
 public class ItemDetailActivity extends ActionBarActivity {
 
     private ActionMode mActionMode;
+    private Item thisItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,6 @@ public class ItemDetailActivity extends ActionBarActivity {
         // (e.g. when rotating the screen from portrait to landscape).
         // In this case, the fragment will automatically be re-added
         // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
@@ -52,6 +50,7 @@ public class ItemDetailActivity extends ActionBarActivity {
             arguments.putString(ItemDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));*/
             arguments.putSerializable("item", getIntent().getSerializableExtra("item"));
+            thisItem = (Item) getIntent().getSerializableExtra("item");
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
@@ -62,20 +61,26 @@ public class ItemDetailActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
 
+        try{
+            switch(item.getItemId()){
+                case android.R.id.home:
+                    NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));
+                    break;
+                case R.id.delete:
 
-
-            NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));
-            return true;
+                    Intent intent = new Intent(this, ItemListActivity.class);
+                    intent.putExtra("delete_item", thisItem);
+                    Log.d("agil ********", "trying to delete " + thisItem.getTitle());
+                    startActivity(intent);
+                    // TODO Delete
+                    /*
+                    ItemListFragment f = (ItemListFragment) getFragmentManager().findFragmentById(R.id.item_list);
+                    f.addItem();*/
+                    break;
+            }
+        } catch(Exception e){
+            Log.i("Error ", e.toString());
         }
         return super.onOptionsItemSelected(item);
     }
